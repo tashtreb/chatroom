@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<style>
+			body {
+			   background-color: palegreen;
+			}
+
+			h1 {
+				font-family: Arial, Helvetica, sans-serif;
+				text-align: center;
+				color: palevioletred;
+			}
+
+			h1:hover{
+				color: white;
+			}
+
+			input {
+				font-size: 120%;
+				color: pink;
+				border: 1 px solid #bdbdbd;
+				border-radius: 5 px;
+				padding: 5 px 5 px 5 px 30 px;
+				background-repeat: no-repeat;
+			}
+
+			input:focus, input:hover {
+				background-color: white;
+				border: 1 px solid #b1e1e4;
+			}
+
+		 </style>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+		
+			var socket = io.connect();
+			
+			socket.on('connect', function() {
+				console.log("Connected");
+			});
+
+			// Receive from any event
+			socket.on('chatmessage', function (data) {
+				console.log(data);
+				document.getElementById('messages').innerHTML = "" + data + 
+ + "" + document.getElementById('messages').innerHTML;
+			});
+			
+			var sendmessage = function(message) {
+				console.log("chatmessage: " + message);
+				socket.emit('chatmessage', message);
+			};
+
+	
+		</script>	
+	</head>
+ <body>
+ <div id="messages">
+ <h1>Input a Message!</h1>
+ </div>
+ <input type="text" id="message" name="message">
+ <input type="submit" value="submit" onclick="sendmessage(document.getElementById('message').value);">
+ </body>
+</html>
